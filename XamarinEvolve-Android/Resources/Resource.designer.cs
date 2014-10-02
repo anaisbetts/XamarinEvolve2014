@@ -27,6 +27,7 @@ namespace XamarinEvolve
 		public static void UpdateIdValues()
 		{
 			global::Splat.Resource.String.library_name = global::XamarinEvolve.Resource.String.library_name;
+			global::ModernHttpClient.Resource.String.library_name = global::XamarinEvolve.Resource.String.library_name;
 		}
 		
 		public partial class Attribute
