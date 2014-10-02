@@ -4,11 +4,18 @@ using Splat;
 using XamarinEvolve.Core.Views;
 using Xamarin.Forms;
 using ReactiveUI.XamForms;
+using ModernHttpClient;
+using System.Net.Http;
 
 namespace XamarinEvolve.Core.ViewModels
 {
+    // CoolStuff: This class and anything under it will automatically get
+    // saved and restored by ReactiveUI. This is a great place to put all
+    // of your startup code - think of it as the "ViewModel for your app".
     public class AppBootstrapper : ReactiveObject, IScreen
     {
+        // The Router holds the ViewModels for the back stack. Because it's
+        // in this object, it will be serialized automatically.
         public RoutingState Router { get; protected set; }
 
         public AppBootstrapper()
@@ -16,8 +23,17 @@ namespace XamarinEvolve.Core.ViewModels
             Router = new RoutingState();
             Locator.CurrentMutable.RegisterConstant(this, typeof(IScreen));
 
-            // TODO: Register new views here, then navigate to the first page 
-            // in your app
+            // Set up Fusillade
+            //
+            // Fusillade is a super cool library that will make it so that whenever
+            // we issue web requests, we'll only issue 4 concurrently, and if we
+            // end up issuing multiple requests to the same resource, it will
+            // de-dupe them. We're saying here, that we want our *backing*
+            // HttpMessageHandler to be ModernHttpClient.
+            Locator.CurrentMutable.RegisterConstant(new NativeMessageHandler(), typeof(HttpMessageHandler));
+
+            // CoolStuff: For routing to work, we need to tell ReactiveUI how to
+            // create the Views associated with our ViewModels
             Locator.CurrentMutable.Register(() => new TestView(), typeof(IViewFor<TestViewModel>));
 
             Router.Navigate.Execute(new TestViewModel(this));
@@ -25,6 +41,9 @@ namespace XamarinEvolve.Core.ViewModels
 
         public Page CreateMainPage()
         {
+            // NB: This returns the opening page that the platform-specific
+            // boilerplate code will look for. It will know to find us because
+            // we've registered our AppBootstrapper as an IScreen.
             return new RoutedViewHost();
         }
     }
