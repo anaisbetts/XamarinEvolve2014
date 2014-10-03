@@ -69,11 +69,17 @@ namespace XamarinEvolve.Core.ViewModels
                 };
 
                 var api = RestService.For<ISlackApi>(client);
-                var ret = await api.GetTeamsForUser(Email);
+                var ret = await BlobCache.LocalMachine.GetOrFetchObject("teams_" + email,
+                    async () => {
+                        var teams = await api.GetTeamsForUser(this.Email);
 
-                if (ret.users == null || ret.users.Count == 0) {
-                    throw new Exception("No teams for this account");
-                }
+                        if (teams.users == null || teams.users.Count == 0) {
+                            throw new Exception("No teams for this account");
+                        }
+
+                        return teams;
+                    },
+                    RxApp.MainThreadScheduler.Now + TimeSpan.FromMinutes(5));
 
                 return ret.users;
             });
@@ -91,7 +97,10 @@ namespace XamarinEvolve.Core.ViewModels
             // CreateAsyncTask piped to this Observable. Subscribing to this
             // allows you to handle errors on the UI thread.
             LoadTeamList.ThrownExceptions
-                .Subscribe(ex => UserError.Throw("Invalid Email for User", ex));
+                .Subscribe(ex => {
+                    TeamList.Clear();
+                    UserError.Throw("Invalid Email for User", ex);
+                });
 
             // CoolStuff: Whenever the Email address changes, we're going to wait
             // for one second of "dead airtime", then invoke the LoadTeamList
