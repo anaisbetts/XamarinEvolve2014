@@ -6,6 +6,7 @@ using Xamarin.Forms;
 using ReactiveUI.XamForms;
 using ModernHttpClient;
 using System.Net.Http;
+using Akavache;
 
 namespace XamarinEvolve.Core.ViewModels
 {
@@ -23,6 +24,12 @@ namespace XamarinEvolve.Core.ViewModels
             Router = new RoutingState();
             Locator.CurrentMutable.RegisterConstant(this, typeof(IScreen));
 
+            // Set up Akavache
+            // 
+            // Akavache is a portable data serialization library that we'll use to
+            // cache data that we've downloaded
+            BlobCache.ApplicationName = "XamarinEvolveDemo";
+
             // Set up Fusillade
             //
             // Fusillade is a super cool library that will make it so that whenever
@@ -34,7 +41,8 @@ namespace XamarinEvolve.Core.ViewModels
 
             // CoolStuff: For routing to work, we need to tell ReactiveUI how to
             // create the Views associated with our ViewModels
-	    // TODO
+            Locator.CurrentMutable.Register(() => new LoginStartView(), typeof(IViewFor<LoginStartViewModel>));
+            Locator.CurrentMutable.Register(() => new LoginView(), typeof(IViewFor<LoginViewModel>));
 
             // Kick off to the first page of our app. If we don't navigate to a
             // page on startup, Xamarin Forms will get real mad (and even if it

@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView 
+        MinimumWidthRequest="48"
+        xmlns="http://xamarin.com/schemas/2014/forms" 
+        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+        x:Class="XamarinEvolve.Core.Views.LoginTeamTileView">
+    <ContentView.Content>
+        <Button x:Name="LoginToThisTeam" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
+    </ContentView.Content>
+</ContentView>

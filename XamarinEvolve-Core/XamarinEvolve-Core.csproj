@@ -36,8 +36,17 @@
     <Compile Include="ViewModels\AppBootstrapper.cs" />
     <Compile Include="Models\SlackResponses.cs" />
     <Compile Include="Models\SlackApi.cs" />
-    <Compile Include="ViewModels\LoginStartViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
+    <Compile Include="Views\LoginView.xaml.cs">
+      <DependentUpon>LoginView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\LoginStartViewModel.cs" />
+    <Compile Include="Views\LoginStartView.xaml.cs">
+      <DependentUpon>LoginStartView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LoginTeamTileView.xaml.cs">
+      <DependentUpon>LoginTeamTileView.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.1.2.3.6257\build\portable-win+net45+wp80+MonoAndroid10+MonoTouch10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.1.2.3.6257\build\portable-win+net45+wp80+MonoAndroid10+MonoTouch10\Xamarin.Forms.targets')" />
@@ -109,6 +118,14 @@
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
-    <Generator>MSBuild:Compile</Generator>
+    <EmbeddedResource Include="Views\LoginView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\LoginStartView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\LoginTeamTileView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>
