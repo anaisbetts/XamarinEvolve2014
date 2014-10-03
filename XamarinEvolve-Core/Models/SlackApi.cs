@@ -12,6 +12,12 @@ namespace XamarinEvolve.Core.Models
 
         [Post("/api/auth.signin")]
         Task<AuthenticationResult> LoginRaw([Body(BodySerializationMethod.UrlEncoded)] Dictionary<string, string> form);
+
+        [Post("/api/channels.list")]
+        Task<ChannelList> GetChannelsRaw([Body(BodySerializationMethod.UrlEncoded)] Dictionary<string, string> form);
+                
+        [Post("/api/channels.history")]
+        Task<MessageListForRoom> GetMessagesForChannelRaw([Body(BodySerializationMethod.UrlEncoded)] Dictionary<string, string> form);
     }
 
     public static class SlackApiExtensions
@@ -30,6 +36,40 @@ namespace XamarinEvolve.Core.Models
             };
 
             return This.LoginRaw(dict);
+        }
+
+        public static async Task<ChannelList> GetChannels(this ISlackApi This, string token)
+        {
+            var dict = new Dictionary<string, string> {
+                { "token", token },
+                { "exclude_archived", "1" },
+            };
+
+            var ret = await This.GetChannelsRaw(dict);
+
+            if (!ret.ok || ret.channels == null || ret.channels.Count == 0) {
+                // NB: Slack guarantees that there is always at least one 
+                // channel
+                throw new Exception("Retrieving channels failed");
+            }
+
+            return ret;
+        }
+
+        public static async Task<MessageListForRoom> GetLatestMessages(this ISlackApi This, string token, string channelId)
+        {
+            var dict = new Dictionary<string, string> {
+                { "token", token },
+                { "channel", channelId },
+            };
+
+            var ret = await This.GetMessagesForChannelRaw(dict);
+
+            if (!ret.ok || ret.messages == null) {
+                throw new Exception("Can't load messages for " + channelId);
+            }
+
+            return ret;
         }
     }
 }
