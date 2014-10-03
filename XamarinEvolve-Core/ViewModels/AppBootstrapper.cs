@@ -34,9 +34,12 @@ namespace XamarinEvolve.Core.ViewModels
 
             // CoolStuff: For routing to work, we need to tell ReactiveUI how to
             // create the Views associated with our ViewModels
-            Locator.CurrentMutable.Register(() => new TestView(), typeof(IViewFor<TestViewModel>));
+	    // TODO
 
-            Router.Navigate.Execute(new TestViewModel(this));
+            // Kick off to the first page of our app. If we don't navigate to a
+            // page on startup, Xamarin Forms will get real mad (and even if it
+            // didn't, our users would!)
+            Router.Navigate.Execute(new LoginStartViewModel(this));
         }
 
         public Page CreateMainPage()
