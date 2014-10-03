@@ -62,6 +62,11 @@ namespace XamarinEvolve.Core.ViewModels
                 return result.token;
             });
 
+            // Whenever we get a successful token result, we're going to navigate
+            // to the ChannelViewModel to display a room.
+            Login.Subscribe(token =>
+                HostScreen.Router.NavigateAndReset.Execute(new ChannelViewModel(token, model.team_id)));
+
             Login.ThrownExceptions.Subscribe(ex => {
                 // CoolStuff: UserErrors are like "exceptions meant for users".
                 // We can throw them in ViewModels, and let Views handle them by

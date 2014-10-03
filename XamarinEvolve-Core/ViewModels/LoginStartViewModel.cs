@@ -128,7 +128,7 @@ namespace XamarinEvolve.Core.ViewModels
             // CoolStuff: Here, we're creating a Command whose sole job is to
             // use the Router to navigate us to a new page.
             LoginToThisTeam = ReactiveCommand.CreateAsyncObservable(_ =>
-                hostScreen.Router.Navigate.ExecuteAsync(new LoginStartViewModel(hostScreen)));
+                hostScreen.Router.Navigate.ExecuteAsync(new LoginViewModel(model, hostScreen)));
         }
     }
 }
