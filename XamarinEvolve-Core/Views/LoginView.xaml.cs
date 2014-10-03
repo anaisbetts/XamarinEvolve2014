@@ -11,6 +11,11 @@ namespace XamarinEvolve.Core.Views
         public LoginView ()
         {
             InitializeComponent ();
+
+            this.OneWayBind(ViewModel, vm => vm.Model.user, v => v.Email.Text);
+            this.Bind(ViewModel, vm => vm.Password, v => v.Password.Text);
+
+            this.BindCommand(ViewModel, vm => vm.Login, v => v.Login);
         }
 
         public LoginViewModel ViewModel {
