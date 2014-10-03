@@ -43,6 +43,7 @@ namespace XamarinEvolve.Core.ViewModels
             // create the Views associated with our ViewModels
             Locator.CurrentMutable.Register(() => new LoginStartView(), typeof(IViewFor<LoginStartViewModel>));
             Locator.CurrentMutable.Register(() => new LoginView(), typeof(IViewFor<LoginViewModel>));
+            Locator.CurrentMutable.Register(() => new ChannelView(), typeof(IViewFor<ChannelViewModel>));
 
             // Kick off to the first page of our app. If we don't navigate to a
             // page on startup, Xamarin Forms will get real mad (and even if it
