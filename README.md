@@ -16,4 +16,4 @@ This is the repo for my Xamarin Evolve 2014 talk.
 * [Fusillade](https://github.com/paulcbetts/fusillade) - Prioritize your network accesses
 * [ModernHttpClient](https://github.com/paulcbetts/modernhttpclient) - Make HttpClient fast using platform-specific libraries
 * [Splat](https://github.com/paulcbetts/splat) - Portable Image Loading and Other Stuff
-* [Json2CSharp.com](https://json2csharp.com) - JSON to C# classes
+* [Json2CSharp.com](http://json2csharp.com) - JSON to C# classes
