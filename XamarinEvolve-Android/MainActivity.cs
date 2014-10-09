@@ -24,6 +24,15 @@ namespace XamarinEvolve.Views
             base.OnCreate(bundle);
             Forms.Init(this, bundle);
 
+            // NB: This is the worst way ever to handle UserErrors and definitely *not*
+            // best practice. Help your users out!
+            UserError.RegisterHandler(ue => {
+                var toast = Toast.MakeText(this, ue.ErrorMessage, ToastLength.Short);
+                toast.Show();
+
+                return Observable.Return(RecoveryOptionResult.CancelOperation);
+            });
+
             var bootstrapper = RxApp.SuspensionHost.GetAppState<AppBootstrapper>();
             this.SetPage(bootstrapper.CreateMainPage());
         }
